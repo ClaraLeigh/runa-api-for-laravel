@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 use ClaraLeigh\RunaApi\Objects\Product;
 use ClaraLeigh\RunaApi\Objects\Order;
 use ClaraLeigh\RunaApi\Enums\OrderStatus;
+use Illuminate\Support\Collection;
 
 /**
  * API Wrapper for Runa Connect
@@ -29,6 +30,23 @@ class RunaApi
                 'Authorization' => "Bearer $this->apiKey"
             ]
         ]);
+    }
+
+    /**
+     * Get a product by its ID.
+     *
+     * @param string $productId
+     * @return Product
+     */
+    public function getAllProduct(): Collection
+    {
+        $products = $this->get('products');
+        $formattedProducts = new Collection();
+        foreach ($products['products'] as $product)
+        {
+            $formattedProducts->push(new Product($product));
+        }
+        return $formattedProducts;
     }
 
     /**
