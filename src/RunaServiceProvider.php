@@ -2,6 +2,7 @@
 
 namespace ClaraLeigh\RunaApi;
 
+use ClaraLeigh\RunaApi\Support\RunaApi;
 use Illuminate\Support\ServiceProvider;
 
 class RunaServiceProvider extends ServiceProvider
@@ -15,10 +16,10 @@ class RunaServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/config/runa_connect_api.php', 'runa-api');
+        $this->mergeConfigFrom(__DIR__.'/config/runa-api.php', 'runa-api');
 
-        $this->app->singleton(RunaConnectApi::class, function ($app) {
-            return new RunaConnectApi($app['config']['runa-api']);
+        $this->app->singleton(RunaApi::class, function ($app) {
+            return new RunaApi($app['config']['runa-api']['api_key']);
         });
     }
 }
