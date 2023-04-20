@@ -21,18 +21,18 @@ class RunaApi
     /**
      * Create a new RunaApi instance.
      *
-     * @param  string  $apiKey
+     * @param  string  $password
      */
     public function __construct(
         private readonly string $endpoint,
-        private readonly string $apiUser,
-        private readonly string $apiKey
+        private readonly string $username,
+        private readonly string $password
     )
     {
         // Use Basic AUTH
         $this->client = new Client([
             'base_uri' => $this->endpoint,
-            'auth' => [$this->apiUser, $this->apiKey]
+            'auth' => [$this->username, $this->password]
         ]);
     }
 

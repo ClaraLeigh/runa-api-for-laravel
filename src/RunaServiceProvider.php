@@ -19,7 +19,11 @@ class RunaServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/config/runa-api.php', 'runa-api');
 
         $this->app->singleton(RunaApi::class, function ($app) {
-            return new RunaApi($app['config']['runa-api']['api_key']);
+            return new RunaApi(
+                endpoint: $app['config']['runa-api.endpoint'],
+                username: $app['config']['runa-api.username'],
+                password: $app['config']['runa-api.password']
+            );
         });
     }
 }
