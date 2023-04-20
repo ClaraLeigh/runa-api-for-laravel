@@ -6,7 +6,10 @@ use GuzzleHttp\Client;
 use ClaraLeigh\RunaApi\Objects\Product;
 use ClaraLeigh\RunaApi\Objects\Order;
 use ClaraLeigh\RunaApi\Enums\OrderStatus;
+use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
+use JsonException;
 
 /**
  * API Wrapper for Runa Connect
@@ -21,15 +24,38 @@ class RunaApi
      * @param  string  $apiKey
      */
     public function __construct(
+        private readonly string $endpoint,
+        private readonly string $apiUser,
         private readonly string $apiKey
     )
     {
+        // Use Basic AUTH
         $this->client = new Client([
-            'base_uri' => 'https://api.runaconnect.com/',
-            'headers' => [
-                'Authorization' => "Bearer $this->apiKey"
-            ]
+            'base_uri' => $this->endpoint,
+            'auth' => [$this->apiUser, $this->apiKey]
         ]);
+    }
+
+    /**
+     * Check if auth is valid.
+     *
+     * @return bool
+     * @throws GuzzleException|JsonException
+     */
+    public function auth(): bool
+    {
+        $response = $this->client->get('auth');
+        if ($response->getStatusCode() !== 200)
+        {
+            return false;
+        }
+        $json = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
+        if ($json['status'] === 'success')
+        {
+            return true;
+        }
+        Log::error('Runa API Auth failed', $json);
+        return false;
     }
 
     /**
