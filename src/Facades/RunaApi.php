@@ -13,6 +13,6 @@ class RunaApi extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'runa-api';
+        return \ClaraLeigh\RunaApi\Support\RunaApi::class;
     }
 }
