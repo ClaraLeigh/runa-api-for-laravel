@@ -26,14 +26,8 @@ class Order
      */
     public function __construct(array $data)
     {
-        $this->orderId = $data['order_id'];
+        $this->validate($data);
         $this->status = OrderStatus::from($data['status']);
-        $this->totalAmount = $data['total_amount'];
-        $this->items = array_map(
-            static fn ($product) => new Product($product),
-            $data['items']
-        );
-
         if (isset($data['e_code'])) {
             $this->e_code = new ECode($data['e_code']);
         }
@@ -55,6 +49,13 @@ class Order
 
         if (isset($data['error_string'])) {
             $this->error_string = $data['error_string'];
+        }
+    }
+
+    protected function validate($data)
+    {
+        if (!isset($data['order_id'])) {
+            throw new \InvalidArgumentException('Order ID is required.');
         }
     }
 }

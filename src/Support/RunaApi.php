@@ -44,13 +44,18 @@ class RunaApi
      */
     public function auth(): bool
     {
-        $response = $this->client->get('auth');
+        try {
+            $response = $this->client->get('auth');
+        } catch (GuzzleException $e) {
+            Log::error('Runa API Auth failed', $e->getMessage());
+            return false;
+        }
         if ($response->getStatusCode() !== 200)
         {
             return false;
         }
         $json = json_decode($response->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
-        if ($json['status'] === 'success')
+        if ($json['status'] === 'SUCCESS')
         {
             return true;
         }
@@ -97,7 +102,7 @@ class RunaApi
     public function createOrder(array $orderData): Order
     {
         return new Order(
-            $this->post('orders', $orderData)
+            $this->post('order-digital-card', $orderData)
         );
     }
 

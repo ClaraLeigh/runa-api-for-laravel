@@ -18,27 +18,27 @@ class Product
      */
     public string $description;
     public string $availability;
-    public int $available_in_days;
-    public array $available_denominations;
-    public string $barcode_format;
-    public string $card_image_url;
-    public string $logo_image_url;
+    public ?int $available_in_days;
+    public ?array $available_denominations;
+    public ?string $barcode_format;
+    public ?string $card_image_url;
+    public ?string $logo_image_url;
     public array $categories;
     public array $countries;
     public string $currency_code;
     public string $denomination_type;
-    public string $e_code_usage_type;
-    public string $expiry_date_policy;
-    public int $expiry_in_months;
+    public ?string $e_code_usage_type;
+    public ?string $expiry_date_policy;
+    public ?int $expiry_in_months;
     public string $maximum_value;
     public string $minimum_value;
-    public string $percent_discount;
-    public string $redeemable_at;
-    public string $state;
-    public string $redeem_instructions_html;
-    public string $terms_and_conditions_html;
-    public string $terms_and_conditions_pdf_url;
-    public string $terms_and_conditions_url;
+    public ?string $percent_discount;
+    public ?string $redeemable_at;
+    public ?string $state;
+    public ?string $redeem_instructions_html;
+    public ?string $terms_and_conditions_html;
+    public ?string $terms_and_conditions_pdf_url;
+    public ?string $terms_and_conditions_url;
     public bool $wrap_supported;
 
     public function __construct(array $data)
