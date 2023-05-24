@@ -3,6 +3,7 @@
 namespace ClaraLeigh\RunaApi\Objects;
 
 use ClaraLeigh\RunaApi\Enums\OrderStatus;
+use Illuminate\Support\Facades\Log;
 
 /**
  * The Order Object as defined by the Runa Connect API.
@@ -55,6 +56,9 @@ class Order
     protected function validate($data)
     {
         if (!isset($data['order_id'])) {
+            Log::error('Order ID is required.', [
+                'data' => $data,
+            ]);
             throw new \InvalidArgumentException('Order ID is required.');
         }
     }
