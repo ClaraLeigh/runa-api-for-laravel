@@ -2,6 +2,8 @@
 
 namespace ClaraLeigh\RunaApi\Objects;
 
+use ClaraLeigh\RunaApi\Exceptions\ProductNotFoundException;
+
 class Product
 {
     /**
@@ -41,8 +43,14 @@ class Product
     public ?string $terms_and_conditions_url;
     public bool $wrap_supported;
 
+    /**
+     * @throws ProductNotFoundException
+     */
     public function __construct(array $data)
     {
+        if ($data['status'] === 'ERROR') {
+            throw new ProductNotFoundException($data['error_details']);
+        }
         $this->availability = $data['availability'];
         $this->available_in_days = $data['available_in_days'];
         $this->available_denominations = $data['available_denominations'];
