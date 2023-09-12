@@ -48,7 +48,7 @@ class Product
      */
     public function __construct(array $data)
     {
-        if ($data['status'] === 'ERROR') {
+        if (!empty($data['status']) && $data['status'] === 'ERROR') {
             throw new ProductNotFoundException($data['error_details']);
         }
         $this->availability = $data['availability'];
